@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
+import "react-native-gesture-handler";
+import FinalFood from "./src/screens/FinalFoodScreen/FinalFoodScreen";
+import Home from "./src/screens/HomeScreen/HomeScreen";
 
+import { foodType } from "./src/screens/HomeScreen/helper/data";
+
+type RootStackParamList = { home: undefined; final: { list: foodType[] } };
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export type homeType = NativeStackScreenProps<RootStackParamList, "home">;
+export type finalType = NativeStackScreenProps<RootStackParamList, "final">;
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName='home'
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen component={Home} name='home' />
+        <Stack.Screen component={FinalFood} name='final' />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
